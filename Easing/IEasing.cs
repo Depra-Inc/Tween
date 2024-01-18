@@ -5,6 +5,13 @@ namespace Depra.Tween.Easing
 {
 	public interface IEasing
 	{
-		float Calculate(float arg0, float arg1, float arg2, float arg3);
+		/// <summary>
+		/// Calculates Robert Penner's easing.
+		/// </summary>
+		/// <param name="t">Time.</param>
+		/// <param name="b">Beginning value.</param>
+		/// <param name="c">Value delta.</param>
+		/// <param name="d">Duration.</param>
+		float Calculate(float t, float b, float c, float d);
 	}
 }

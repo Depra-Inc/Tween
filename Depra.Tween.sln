@@ -4,6 +4,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{273BF92E-083
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Easing", "Easing\Easing.csproj", "{A42B522C-F70A-4113-8BF6-500A696ADC89}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tweening", "Tweening\Tweening.csproj", "{BD867B49-262C-4C2A-8264-C03E58EF77B0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -11,11 +13,16 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{A42B522C-F70A-4113-8BF6-500A696ADC89} = {273BF92E-0831-4B55-A335-2BA7A7C22DFD}
+		{BD867B49-262C-4C2A-8264-C03E58EF77B0} = {273BF92E-0831-4B55-A335-2BA7A7C22DFD}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{A42B522C-F70A-4113-8BF6-500A696ADC89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A42B522C-F70A-4113-8BF6-500A696ADC89}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A42B522C-F70A-4113-8BF6-500A696ADC89}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A42B522C-F70A-4113-8BF6-500A696ADC89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD867B49-262C-4C2A-8264-C03E58EF77B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD867B49-262C-4C2A-8264-C03E58EF77B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD867B49-262C-4C2A-8264-C03E58EF77B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD867B49-262C-4C2A-8264-C03E58EF77B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
