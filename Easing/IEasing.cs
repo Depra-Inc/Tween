@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 // © 2024 Nikolay Melnikov <n.melnikov@depra.org>
 
-namespace Depra.Tween.Easing
+namespace Depra.Easing
 {
 	public interface IEasing
 	{
@@ -12,6 +12,6 @@ namespace Depra.Tween.Easing
 		/// <param name="b">Beginning value.</param>
 		/// <param name="c">Value delta.</param>
 		/// <param name="d">Duration.</param>
-		float Calculate(float t, float b, float c, float d);
+		float Calculate(float t, float b, float c, float d = 1f);
 	}
 }

@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: Apache-2.0
 // © 2024 Nikolay Melnikov <n.melnikov@depra.org>
 
-namespace Depra.Tween.Easing
+namespace Depra.Easing
 {
 	public static class Back
 	{
@@ -21,39 +21,47 @@ namespace Depra.Tween.Easing
 
 	public sealed record BackEaseIn : IEasing
 	{
-		private readonly float _s;
+		public float S;
 
-		public BackEaseIn(float s = 1.70158f) => _s = s;
+		public BackEaseIn() : this(Defaults.OVERSHOOT) { }
 
-		public float Calculate(float t, float b, float c, float d) => c * (t /= d) * t * ((_s + 1) * t - _s) + b;
+		public BackEaseIn(float s) => S = s;
+
+		public float Calculate(float t, float b, float c, float d) => c * (t /= d) * t * ((S + 1) * t - S) + b;
 	}
 
 	public sealed record BackEaseInOut : IEasing
 	{
-		private readonly float _s;
+		public float S;
 
-		public BackEaseInOut(float s = 1.70158f) => _s = s;
+		public BackEaseInOut() : this(Defaults.OVERSHOOT) { }
+
+		public BackEaseInOut(float s) => S = s;
 
 		public float Calculate(float t, float b, float c, float d) => (t /= d / 2f) < 1f
-			? c / 2f * (t * t * (((_s * 1.525f) + 1f) * t - _s * 1.525f)) + b
-			: c / 2f * ((t -= 2f) * t * ((_s * 1.525f + 1f) * t + _s * 1.525f) + 2f) + b;
+			? c / 2f * (t * t * (((S * 1.525f) + 1f) * t - S * 1.525f)) + b
+			: c / 2f * ((t -= 2f) * t * ((S * 1.525f + 1f) * t + S * 1.525f) + 2f) + b;
 	}
 
 	public sealed record BackEaseOut : IEasing
 	{
-		private readonly float _s;
+		public float S;
 
-		public BackEaseOut(float s = 1.70158f) => _s = s;
+		public BackEaseOut() : this(Defaults.OVERSHOOT) { }
+
+		public BackEaseOut(float s) => S = s;
 
 		public float Calculate(float t, float b, float c, float d) =>
-			c * ((t = t / d - 1) * t * ((_s + 1) * t + _s) + 1) + b;
+			c * ((t = t / d - 1) * t * ((S + 1) * t + S) + 1) + b;
 	}
 
 	public sealed record BackEaseOutIn : IEasing
 	{
 		private readonly float _s;
 
-		public BackEaseOutIn(float s = 1.70158f) => _s = s;
+		public BackEaseOutIn() : this(Defaults.OVERSHOOT) { }
+
+		public BackEaseOutIn(float s) => _s = s;
 
 		public float Calculate(float t, float b, float c, float d) => t < d / 2
 			? (c / 2) * ((t = (t * 2) / d - 1) * t * ((_s + 1) * t + _s) + 1) + b

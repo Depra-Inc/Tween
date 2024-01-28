@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Depra.Tween.Easing
+namespace Depra.Easing
 {
 	public static class Elastic
 	{
@@ -23,13 +23,15 @@ namespace Depra.Tween.Easing
 
 	public sealed record ElasticEaseIn : IEasing
 	{
-		private float _a;
-		private float _p;
+		public float A;
+		public float P;
 
-		public ElasticEaseIn(float a = 0f, float p = 0f)
+		public ElasticEaseIn() : this(0, 0) { }
+
+		public ElasticEaseIn(float a, float p)
 		{
-			_a = a;
-			_p = p;
+			A = a;
+			P = p;
 		}
 
 		public float Calculate(float t, float b, float c, float d)
@@ -44,35 +46,38 @@ namespace Depra.Tween.Easing
 				return b + c;
 			}
 
-			if (_p == 0f)
+			if (P == 0f)
 			{
-				_p = d * 0.3f;
+				P = d * 0.3f;
 			}
 
 			float s;
-			if (_a == 0f || _a < Math.Abs(c))
+			if (A == 0f || A < Math.Abs(c))
 			{
-				_a = c;
-				s = _p / 4f;
+				A = c;
+				s = P / 4f;
 			}
 			else
 			{
-				s = _p / (2f * (float) Math.PI) * (float) Math.Asin(c / _a);
+				s = P / (2f * (float) Math.PI) * (float) Math.Asin(c / A);
 			}
 
-			return -(_a * (float) Math.Pow(2f, 10f * (t -= 1f)) * (float) Math.Sin((t * d - s) * (2f * Math.PI) / _p)) + b;
+			return -(A * (float) Math.Pow(2f, 10f * (t -= 1f)) * (float) Math.Sin((t * d - s) * (2f * Math.PI) / P)) +
+			       b;
 		}
 	}
 
 	public sealed record ElasticEaseInOut : IEasing
 	{
-		private float _a;
-		private float _p;
+		public float A;
+		public float P;
 
-		public ElasticEaseInOut(float a = 0f, float p = 0f)
+		public ElasticEaseInOut() : this(0, 0) { }
+
+		public ElasticEaseInOut(float a, float p)
 		{
-			_a = a;
-			_p = p;
+			A = a;
+			P = p;
 		}
 
 		public float Calculate(float t, float b, float c, float d)
@@ -87,39 +92,41 @@ namespace Depra.Tween.Easing
 				return b + c;
 			}
 
-			if (_p == 0f)
+			if (P == 0f)
 			{
-				_p = d * (0.3f * 1.5f);
+				P = d * (0.3f * 1.5f);
 			}
 
 			float s;
-			if (_a == 0f || _a < Math.Abs(c))
+			if (A == 0f || A < Math.Abs(c))
 			{
-				_a = c;
-				s = _p / 4f;
+				A = c;
+				s = P / 4f;
 			}
 			else
 			{
-				s = _p / (2f * (float) Math.PI) * (float) Math.Asin(c / _a);
+				s = P / (2f * (float) Math.PI) * (float) Math.Asin(c / A);
 			}
 
 			return t < 1f
-				? -0.5f * (_a * (float) Math.Pow(2f, 10f * (t -= 1)) *
-				           (float) Math.Sin((t * d - s) * (2f * (float) Math.PI) / _p)) + b
-				: _a * (float) Math.Pow(2f, -10f * (t -= 1f)) *
-				(float) Math.Sin((t * d - s) * (2f * (float) Math.PI) / _p) * 0.5f + c + b;
+				? -0.5f * (A * (float) Math.Pow(2f, 10f * (t -= 1)) *
+				           (float) Math.Sin((t * d - s) * (2f * (float) Math.PI) / P)) + b
+				: A * (float) Math.Pow(2f, -10f * (t -= 1f)) *
+				(float) Math.Sin((t * d - s) * (2f * (float) Math.PI) / P) * 0.5f + c + b;
 		}
 	}
 
 	public sealed record ElasticEaseOut : IEasing
 	{
-		private float _a;
-		private float _p;
+		public float A;
+		public float P;
 
-		public ElasticEaseOut(float a = 0f, float p = 0f)
+		public ElasticEaseOut() : this(0, 0) { }
+
+		public ElasticEaseOut(float a, float p)
 		{
-			_a = a;
-			_p = p;
+			A = a;
+			P = p;
 		}
 
 		public float Calculate(float t, float b, float c, float d)
@@ -134,36 +141,38 @@ namespace Depra.Tween.Easing
 				return b + c;
 			}
 
-			if (_p == 0f)
+			if (P == 0f)
 			{
-				_p = d * 0.3f;
+				P = d * 0.3f;
 			}
 
 			float s;
-			if (_a == 0f || _a < Math.Abs(c))
+			if (A == 0f || A < Math.Abs(c))
 			{
-				_a = c;
-				s = _p / 4f;
+				A = c;
+				s = P / 4f;
 			}
 			else
 			{
-				s = _p / (2f * (float) Math.PI) * (float) Math.Asin(c / _a);
+				s = P / (2f * (float) Math.PI) * (float) Math.Asin(c / A);
 			}
 
-			return _a * (float) Math.Pow(2f, -10f * t) *
-				(float) Math.Sin((t * d - s) * (2f * (float) Math.PI) / _p) + c + b;
+			return A * (float) Math.Pow(2f, -10f * t) *
+				(float) Math.Sin((t * d - s) * (2f * (float) Math.PI) / P) + c + b;
 		}
 	}
 
 	public sealed record ElasticEaseOutIn : IEasing
 	{
-		private float _a;
-		private float _p;
+		public float A;
+		public float P;
 
-		public ElasticEaseOutIn(float a = 0f, float p = 0f)
+		public ElasticEaseOutIn() : this(0, 0) { }
+
+		public ElasticEaseOutIn(float a, float p)
 		{
-			_a = a;
-			_p = p;
+			A = a;
+			P = p;
 		}
 
 		public float Calculate(float t, float b, float c, float d)
@@ -183,23 +192,23 @@ namespace Depra.Tween.Easing
 					return b + c;
 				}
 
-				if (_p == 0f)
+				if (P == 0f)
 				{
-					_p = d * 0.3f;
+					P = d * 0.3f;
 				}
 
-				if (_a == 0f || _a < Math.Abs(c))
+				if (A == 0f || A < Math.Abs(c))
 				{
-					_a = c;
-					s = _p / 4f;
+					A = c;
+					s = P / 4f;
 				}
 				else
 				{
-					s = _p / (2f * (float) Math.PI) * (float) Math.Asin(c / _a);
+					s = P / (2f * (float) Math.PI) * (float) Math.Asin(c / A);
 				}
 
-				return _a * (float) Math.Pow(2f, -10f * t) *
-					(float) Math.Sin((t * d - s) * (2f * (float) Math.PI) / _p) + c + b;
+				return A * (float) Math.Pow(2f, -10f * t) *
+					(float) Math.Sin((t * d - s) * (2f * (float) Math.PI) / P) + c + b;
 			}
 
 			if ((t = t * 2f - d) == 0f)
@@ -212,23 +221,23 @@ namespace Depra.Tween.Easing
 				return (b + c) + c;
 			}
 
-			if (_p == 0f)
+			if (P == 0f)
 			{
-				_p = d * 0.3f;
+				P = d * 0.3f;
 			}
 
-			if (_a == 0f || _a < Math.Abs(c))
+			if (A == 0f || A < Math.Abs(c))
 			{
-				_a = c;
-				s = _p / 4f;
+				A = c;
+				s = P / 4f;
 			}
 			else
 			{
-				s = _p / (2f * (float) Math.PI) * (float) Math.Asin(c / _a);
+				s = P / (2f * (float) Math.PI) * (float) Math.Asin(c / A);
 			}
 
-			return -(_a * (float) Math.Pow(2f, 10f * (t -= 1f)) *
-			         (float) Math.Sin((t * d - s) * (2f * (float) Math.PI) / _p)) + (b + c);
+			return -(A * (float) Math.Pow(2f, 10f * (t -= 1f)) *
+			         (float) Math.Sin((t * d - s) * (2f * (float) Math.PI) / P)) + (b + c);
 		}
 	}
 }

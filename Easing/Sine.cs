@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Depra.Tween.Easing
+namespace Depra.Easing
 {
 	public static class Sine
 	{
