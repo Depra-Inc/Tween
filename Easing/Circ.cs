@@ -1,5 +1,5 @@
 ﻿// SPDX-License-Identifier: Apache-2.0
-// © 2024 Nikolay Melnikov <n.melnikov@depra.org>
+// © 2024-2025 Nikolay Melnikov <n.melnikov@depra.org>
 
 using System;
 
@@ -7,43 +7,51 @@ namespace Depra.Easing
 {
 	public static class Circ
 	{
-		public static readonly IEasing EASE_IN;
-		public static readonly IEasing EASE_OUT;
-		public static readonly IEasing EASE_IN_OUT;
-		public static readonly IEasing EASE_OUT_IN;
+		public static readonly IEase IN;
+		public static readonly IEase OUT;
+		public static readonly IEase IN_OUT;
+		public static readonly IEase OUT_IN;
 
 		static Circ()
 		{
-			EASE_IN = new CircularEaseIn();
-			EASE_OUT = new CircularEaseOut();
-			EASE_IN_OUT = new CircularEaseInOut();
-			EASE_OUT_IN = new CircularEaseOutIn();
+			IN = new CircularEaseIn();
+			OUT = new CircularEaseOut();
+			IN_OUT = new CircularEaseInOut();
+			OUT_IN = new CircularEaseOutIn();
 		}
 	}
 
-	public readonly struct CircularEaseIn : IEasing
+	public readonly struct CircularEaseIn : IEase
 	{
-		public float Calculate(float t, float b, float c, float d) =>
-			-c * ((float) Math.Sqrt(1f - (t /= d) * t) - 1f) + b;
+		public float Calculate(float t) => 1f - MathF.Sqrt(1f - MathF.Pow(t, 2f));
+
+		public float Calculate(float t, float b, float c, float d) => -c * (MathF.Sqrt(1f - (t /= d) * t) - 1f) + b;
 	}
 
-	public readonly struct CircularEaseInOut : IEasing
+	public readonly struct CircularEaseOut : IEase
 	{
+		public float Calculate(float t) => MathF.Sqrt(1f - MathF.Pow(t - 1f, 2f));
+
+		public float Calculate(float t, float b, float c, float d) => c * MathF.Sqrt(1f - (t = t / d - 1f) * t) + b;
+	}
+
+	public readonly struct CircularEaseInOut : IEase
+	{
+		public float Calculate(float t) => t < 0.5f
+			? (1.0f - MathF.Sqrt(1.0f - MathF.Pow(2.0f * t, 2.0f))) / 2.0f
+			: (MathF.Sqrt(1.0f - MathF.Pow(-2.0f * t + 2.0f, 2.0f)) + 1.0f) / 2.0f;
+
 		public float Calculate(float t, float b, float c, float d) => (t /= d / 2f) < 1f
-			? -c / 2f * ((float) Math.Sqrt(1f - t * t) - 1f) + b
-			: c / 2f * ((float) Math.Sqrt(1f - (t -= 2f) * t) + 1f) + b;
+			? -c / 2f * (MathF.Sqrt(1f - t * t) - 1f) + b
+			: c / 2f * (MathF.Sqrt(1f - (t -= 2f) * t) + 1f) + b;
 	}
 
-	public readonly struct CircularEaseOut : IEasing
+	public readonly struct CircularEaseOutIn : IEase
 	{
-		public float Calculate(float t, float b, float c, float d) =>
-			c * (float) Math.Sqrt(1f - (t = t / d - 1f) * t) + b;
-	}
+		public float Calculate(float t) => throw new NotImplementedException();
 
-	public readonly struct CircularEaseOutIn : IEasing
-	{
 		public float Calculate(float t, float b, float c, float d) => t < d / 2f
-			? (c / 2f) * (float) Math.Sqrt(1f - (t = (t * 2f) / d - 1f) * t) + b
-			: -(c / 2f) * ((float) Math.Sqrt(1f - (t = (t * 2f - d) / d) * t) - 1f) + (b + c / 2f);
+			? (c / 2f) * MathF.Sqrt(1f - (t = (t * 2f) / d - 1f) * t) + b
+			: -(c / 2f) * (MathF.Sqrt(1f - (t = (t * 2f - d) / d) * t) - 1f) + (b + c / 2f);
 	}
 }

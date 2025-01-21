@@ -1,10 +1,12 @@
 // SPDX-License-Identifier: Apache-2.0
-// © 2024 Nikolay Melnikov <n.melnikov@depra.org>
+// © 2024-2025 Nikolay Melnikov <n.melnikov@depra.org>
 
 namespace Depra.Easing
 {
-	public interface IEasing
+	public interface IEase
 	{
+		float Calculate(float t);
+
 		/// <summary>
 		/// Calculates Robert Penner's easing.
 		/// </summary>

@@ -1,15 +1,17 @@
 ﻿// SPDX-License-Identifier: Apache-2.0
-// © 2024 Nikolay Melnikov <n.melnikov@depra.org>
+// © 2024-2025 Nikolay Melnikov <n.melnikov@depra.org>
 
 namespace Depra.Easing
 {
 	public static class Linear
 	{
-		public static readonly IEasing NONE = new EaseNone();
+		public static readonly IEase NONE = new EaseNone();
 	}
 
-	public readonly struct EaseNone : IEasing
+	public readonly struct EaseNone : IEase
 	{
-		float IEasing.Calculate(float t, float b, float c, float d) => b + c * t / d;
+		float IEase.Calculate(float t) => t;
+
+		float IEase.Calculate(float t, float b, float c, float d) => b + c * t / d;
 	}
 }

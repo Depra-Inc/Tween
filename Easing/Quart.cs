@@ -1,43 +1,52 @@
 ﻿// SPDX-License-Identifier: Apache-2.0
-// © 2024 Nikolay Melnikov <n.melnikov@depra.org>
+// © 2024-2025 Nikolay Melnikov <n.melnikov@depra.org>
 
 namespace Depra.Easing
 {
 	public static class Quart
 	{
-		public static readonly IEasing EASE_IN;
-		public static readonly IEasing EASE_OUT;
-		public static readonly IEasing EASE_IN_OUT;
-		public static readonly IEasing EASE_OUT_IN;
+		public static readonly IEase IN;
+		public static readonly IEase OUT;
+		public static readonly IEase IN_OUT;
+		public static readonly IEase OUT_IN;
 
 		static Quart()
 		{
-			EASE_IN = new QuarticEaseIn();
-			EASE_OUT = new QuarticEaseOut();
-			EASE_IN_OUT = new QuarticEaseInOut();
-			EASE_OUT_IN = new QuarticEaseOutIn();
+			IN = new QuarticEaseIn();
+			OUT = new QuarticEaseOut();
+			IN_OUT = new QuarticEaseInOut();
+			OUT_IN = new QuarticEaseOutIn();
 		}
 	}
 
-	public readonly struct QuarticEaseIn : IEasing
+	public readonly struct QuarticEaseIn : IEase
 	{
+		public float Calculate(float t) => t * t * t * t;
+
 		public float Calculate(float t, float b, float c, float d) => c * (t /= d) * t * t * t + b;
 	}
 
-	public readonly struct QuarticEaseInOut : IEasing
+	public readonly struct QuarticEaseOut : IEase
 	{
+		public float Calculate(float t) => 1.0f - (--t * t * t * t);
+
+		public float Calculate(float t, float b, float c, float d) => -c * ((t = t / d - 1) * t * t * t - 1) + b;
+	}
+
+	public readonly struct QuarticEaseInOut : IEase
+	{
+		public float Calculate(float t) =>
+			(t *= 2.0f) < 1.0f ? 0.5f * t * t * t * t : -0.5f * ((t -= 2.0f) * t * t * t - 2.0f);
+
 		public float Calculate(float t, float b, float c, float d) => (t /= d / 2f) < 1f
 			? c / 2f * t * t * t * t + b
 			: -c / 2f * ((t -= 2f) * t * t * t - 2f) + b;
 	}
 
-	public readonly struct QuarticEaseOut : IEasing
+	public readonly struct QuarticEaseOutIn : IEase
 	{
-		public float Calculate(float t, float b, float c, float d) => -c * ((t = t / d - 1) * t * t * t - 1) + b;
-	}
+		public float Calculate(float t) => throw new System.NotImplementedException();
 
-	public readonly struct QuarticEaseOutIn : IEasing
-	{
 		public float Calculate(float t, float b, float c, float d) => t < d / 2f
 			? -(c / 2f) * ((t = t * 2f / d - 1f) * t * t * t - 1f) + b
 			: c / 2f * (t = (t * 2f - d) / d) * t * t * t + (b + c / 2f);
